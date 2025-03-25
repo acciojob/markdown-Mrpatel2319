@@ -1,17 +1,37 @@
-import React, { useState } from "react";
-import MarkdownEditor from "./MarkdownEditor"; // Import the MarkdownEditor component
-import "./App.css"; // Import the styles
+import React, { useState, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
+import "./App.css";
 
-function App() {
-  // State to store the Markdown text input
-  const [markdownText, setMarkdownText] = useState("");
+function Markdown() {
+  const [markdown, setMarkdown] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const handleChange = (e) => {
+    setMarkdown(e.target.value);
+  };
+
+  const changeLoadingVar = () => {
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setTimeout(changeLoadingVar, 3000);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
-      <h1>Markdown Editor</h1>
-      <MarkdownEditor markdownText={markdownText} setMarkdownText={setMarkdownText} />
+      <textarea className="textarea" onChange={handleChange} />
+      <ReactMarkdown className="preview">{markdown}</ReactMarkdown>
     </div>
   );
 }
 
-export default App; 
+export default Markdown;
